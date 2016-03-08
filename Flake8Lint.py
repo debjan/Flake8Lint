@@ -109,6 +109,7 @@ class Flake8LintSettings(object):
 
         # popup a dialog of detected conditions?
         self.popup = bool(self.settings.get('popup', True))
+        self.popup_limit = self.settings.get('popup_limit', [])
 
         # highlight detected conditions?
         self.highlight = bool(self.settings.get('highlight', True))
@@ -949,7 +950,18 @@ class LintReport(object):
             window = self.view.window()
             if not window:
                 return
-            window.show_quick_panel(self.errors_to_show, self.error_selected)
+            pop_errors = self.errors_to_show
+            if settings.popup_limit:
+                pop_errors = [
+                    x for x in pop_errors if
+                    any([x[0].startswith(y) for y in settings.popup_limit])
+                ]
+                self.errors_list = [
+                    x for x in self.errors_list if
+                    any([x[0] == int(y[1].split(':')[0]) for y in pop_errors])
+                ]
+
+            window.show_quick_panel(pop_errors, self.error_selected)
 
     def error_selected(self, item_selected):
         """Error was selected - go to error."""

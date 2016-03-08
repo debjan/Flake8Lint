@@ -18,6 +18,10 @@
 
 	// popup a dialog of detected conditions?
 	"popup": true,
+	// show popup only on selected errors i.e. "popup_limit": ["E9", "F8"]
+	// if list is empy show on all errors (if "popup" is set to "true")
+	"popup_limit": [],
+
 	// highlight detected conditions?
 	"highlight": true,
 
