@@ -1169,7 +1169,7 @@ class Flake8Lint(object):
         """Do view lint asynchronously."""
         # try to get interpreter
         interpreter = view_settings.get('python_interpreter', 'auto')
-        if '$' in interpreter and int(sublime.version()) > 3068:
+        if '$' in interpreter and int(sublime.version()) >= 3068:
             interpreter = sublime.expand_variables(
                 interpreter, view.window().extract_variables()
             )
