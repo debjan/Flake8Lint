@@ -76,6 +76,10 @@ Default "Python Flake8 Lint" plugin config: <kbd>Preferences</kbd>-><kbd>Package
 
 	// popup a dialog of detected conditions?
 	"popup": true,
+	// show popup only on selected errors i.e. "popup_limit": ["E9", "F8"]
+	// if this list is empty show on all errors (if "popup" is set to "true")
+	"popup_limit": [],
+
 	// highlight detected conditions?
 	"highlight": true,
 
