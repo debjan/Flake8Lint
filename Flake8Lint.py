@@ -131,6 +131,9 @@ class Flake8LintSettings(object):
         self.highlight_color_warning = self.settings.get(
             'highlight_color_warning', '#EDBA00'
         )
+        self.highlight_color_success = self.settings.get(
+            'highlight_color_success', '#7CB811'
+        )
 
         # show a mark in the gutter on all lines with errors/warnings:
         # - "dot", "circle" or "bookmark" to show marks
@@ -139,7 +142,8 @@ class Flake8LintSettings(object):
         # - "" (empty string) to do not show marks
         all_gutter_marks = (
             'dot', 'circle', 'bookmark', 'theme-alpha', 'theme-bright',
-            'theme-dark', 'theme-hard', 'theme-simple', ''
+            'theme-dark', 'theme-hard', 'theme-simple', '',
+            'theme-disc', 'theme-circle'
         )
         self.gutter_marks = self.settings.get('gutter_marks')
         if self.gutter_marks not in all_gutter_marks:
@@ -478,7 +482,8 @@ class LintReport(object):
             self.gutter_mark = mark_type
         elif mark_type.startswith('theme-'):
             theme = mark_type[6:]
-            if theme not in ('alpha', 'bright', 'dark', 'hard', 'simple'):
+            if theme not in ('alpha', 'bright', 'dark', 'hard', 'simple',
+                             'disc', 'circle'):
                 log("unknown gutter mark theme: '{0}'".format(mark_type))
                 return
 
@@ -990,10 +995,18 @@ class LintReport(object):
 
         if settings.blink_gutter_marks_on_success:
             log("Blink gutter marks about lint success")
+
+            # check if theme provides success icon
+            abs_path = os.path.join(os.path.dirname(sublime.packages_path()),
+                                    self.gutter_mark.format('success'))
+
+            if os.path.exists(abs_path):
+                self.gutter_mark_success = self.gutter_mark.format('success')
+
             self.view.add_regions(
                 'flake8lint-success',
                 self.view.lines(sublime.Region(0, self.view.size())),
-                'flake8lint.mark.gutter',
+                'flake8lint.mark.success',
                 self.gutter_mark_success,
                 sublime.HIDDEN
             )
