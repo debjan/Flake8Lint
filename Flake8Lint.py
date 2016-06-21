@@ -914,10 +914,14 @@ class LintReport(object):
             scope_name = 'invalid.deprecated'
 
         # highlight error regions if defined
-        if self.is_highlight:
+        if self.is_highlight or self.gutter_mark:
+
+            flags = sublime.HIDDEN
             for level in ('warning', 'error', 'critical'):
                 if not self.regions[level]:
                     continue
+
+                flags = self.is_highlight and sublime.DRAW_OUTLINED or flags
 
                 log("highlight errors in view (regions: {0})".format(level))
 
@@ -926,22 +930,7 @@ class LintReport(object):
                     self.regions[level],
                     scope_name.format(level),
                     self.gutter_mark.format(level),
-                    sublime.DRAW_OUTLINED
-                )
-
-        elif self.gutter_mark:
-            for level in ('warning', 'error', 'critical'):
-                if not self.regions[level]:
-                    continue
-
-                log("highlight errors in view (marks: {0})".format(level))
-
-                self.view.add_regions(
-                    'flake8lint-{0}'.format(level),
-                    self.regions[level],
-                    scope_name.format('gutter'),
-                    self.gutter_mark.format(level),
-                    sublime.HIDDEN
+                    flags
                 )
 
         if self.is_popup and not quiet:
