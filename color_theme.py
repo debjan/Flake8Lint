@@ -33,6 +33,7 @@ DEFAULT_MARK_COLORS = {
     'error': '#DA2000',
     'warning': '#EDBA00',
     'gutter': '#FFFFFF',
+    'success': '#7CB811',
 }
 
 COLOR_SCHEME_PREAMBLE = """<?xml version="1.0" encoding="UTF-8"?>
@@ -91,6 +92,19 @@ COLOR_SCHEME_STYLES = {
                 <string>#FFFFFF</string>
             </dict>
         </dict>
+    """,
+    'success': """
+        <dict>
+            <key>name</key>
+            <string>Python Flake8 Lint Success</string>
+            <key>scope</key>
+            <string>flake8lint.mark.success</string>
+            <key>settings</key>
+            <dict>
+                <key>foreground</key>
+                <string>{0}</string>
+            </dict>
+        </dict>
     """
 }
 
@@ -99,6 +113,7 @@ STYLE_MAP = {
     'flake8lint.mark.error': 'error',
     'flake8lint.mark.warning': 'warning',
     'flake8lint.mark.gutter': 'gutter',
+    'flake8lint.mark.success': 'success',
 }
 
 
@@ -111,6 +126,7 @@ def update_color_scheme(settings):
         'critical': settings.highlight_color_critical,
         'error': settings.highlight_color_error,
         'warning': settings.highlight_color_warning,
+        'success': settings.highlight_color_success,
     }
     sublime3 = int(sublime.version()) >= 3000
 
@@ -139,7 +155,8 @@ def update_color_scheme(settings):
 
         # find all style infos in the theme and update if necessary
         theme_was_changed = False
-        unknown_styles = set(('critical', 'error', 'warning', 'gutter'))
+        unknown_styles = set((
+            'critical', 'error', 'warning', 'gutter', 'success'))
         for d in dicts.findall('./dict'):
             for c in d.getchildren():
                 if c.text and 'flake8lint' in c.text:

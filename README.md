@@ -92,10 +92,12 @@ Default "Python Flake8 Lint" plugin config: <kbd>Preferences</kbd>-><kbd>Package
 	"highlight_color_critical": "#981600",
 	"highlight_color_error": "#DA2000",
 	"highlight_color_warning": "#EDBA00",
+	"highlight_color_success": "#7CB811",
 
 	// show a mark in the gutter on all lines with errors/warnings:
 	// - "dot", "circle" or "bookmark" to show marks
-	// - "theme-alpha", "theme-bright", "theme-dark", "theme-hard" or "theme-simple" to show icon marks
+	// - "theme-alpha", "theme-bright", "theme-dark", "theme-hard", "theme-simple",
+	// - "theme-disc" or "theme-circle" to show icon marks
 	// - "" (empty string) to do not show marks
 	"gutter_marks": "theme-simple",
 
